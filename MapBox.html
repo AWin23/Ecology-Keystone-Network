@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang='en'>
+   <head>
+      <meta charset='utf-8' />
+      <title>Add custom markers in Mapbox GL JS</title>
+      <meta name='viewport' content='width=device-width, initial-scale=1' />
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+      <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js'></script>
+      <script src ="https://api.mapbox.com/styles/v1/a-win23/cl9kgfho5000115pe420dn38j.html?title=view&access_token=pk.eyJ1IjoiYS13aW4yMyIsImEiOiJjbDlrZXk4b2UxYTAwM3VtdzRhMnV5bDZnIn0.U-KKOGqWyAgywbl57Vo-oA&zoomwheel=true&fresh=true#6.15/46.856/-120.525"></script>
+      <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css' rel='stylesheet' />
+      <style>
+         body {
+         margin: 0;
+         padding: 0;
+         }
+         #map {
+         position: absolute;
+         top: 0;
+         bottom: 0;
+         width: 100%;
+         }
+         .marker {
+         background-image: url('file:///Users/A.Win/Mapbox/mapbox-icon.png');
+         background-size: cover;
+         width: 30px;
+         height: 30px;
+         border-radius: 50%;
+         cursor: pointer;
+         }
+         .marker2 {
+         background-image: url('file:///Users/A.Win/Mapbox/tornado.png');
+         background-size: cover;
+         width: 30px;
+         height: 30px;
+         border-radius: 50%;
+         cursor: pointer;
+         }
+         .marker3{
+        background-image: url('file:///Users/A.Win/Mapbox/fire.png');
+         background-size: cover;
+         width: 30px;
+         height: 30px;
+         border-radius: 50%;
+         cursor: pointer;  
+         }
+         .marker4{
+        background-image: url('file:///Users/A.Win/Mapbox/landslide.png');
+         background-size: cover;
+         width: 30px;
+         height: 30px;
+         border-radius: 50%;
+         cursor: pointer;  
+         }
+         .marker5{
+         background-image: url('file:///Users/A.Win/Mapbox/flood.png');
+         background-size: cover;
+         width: 30px;
+         height: 30px;
+         border-radius: 50%;
+         cursor: pointer;   
+         }
+         .marker6{
+         background-image: url('file:///Users/A.Win/Mapbox/earthquake.png');
+         background-size: cover;
+         width: 30px;
+         height: 30px;
+         border-radius: 50%;
+         cursor: pointer;  
+         }
+         .marker7{
+         background-image: url('file:///Users/A.Win/Mapbox/eruption.png');
+         background-size: cover;
+          width: 30px;
+         height: 30px;
+         border-radius: 50%;
+         cursor: pointer;  
+         }
+         .mapboxgl-popup {
+         max-width: 200px;
+         }
+         .mapboxgl-popup-content {
+         text-align: center;
+         font-family: 'Open Sans', sans-serif;
+         }
+      </style>
+   </head>
+   <body>
+
+      <div id='map'>
+      </div>
+      <script>    
+         mapboxgl.accessToken = 'pk.eyJ1IjoiYS13aW4yMyIsImEiOiJjbDlrZXk4b2UxYTAwM3VtdzRhMnV5bDZnIn0.U-KKOGqWyAgywbl57Vo-oA';
+         
+         const map = new mapboxgl.Map({
+           container: 'map',
+           style: 'mapbox://styles/a-win23/cl9kgfho5000115pe420dn38j',
+           center: [-96, 37.8],
+           zoom: 3
+         });
+         
+         // code from the next step will go here!
+         /* Format is 
+         Event:
+         Date of Origin:
+         Location:
+         Guidelines:
+         */
+         const geojson = {
+             type: 'FeatureCollection',
+             features: [
+               {
+                type: 'Feature Tornado Test',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-99.189, 38.2929]
+                },
+                properties: {
+                    title: 'Tornado',
+                    dateoforigin: 'Date of Origin: ',
+                    location: 'Tornado Alley',
+                    description: ' Okhlahoma ', 
+                    prevention: '',
+                    guideline: 'Guideline: '
+                }
+               },
+               {
+                type: 'Feature Firefirest Test',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-121.346, 47.728]
+                 },
+                properties: {
+                    title: 'Forest Fire',
+                    dateoforigin: 'Date of Origin: September 10th, 2022',
+                    location: 'Bolt Creek, Washington ',               
+                    description: "Thousands of acres are burning. Mass evacuations happening.",
+                    prevention: 'Prevention: Do not dispose flamable material or substances near wildlife',
+                    guideline: 'Guideline: <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/types-of-emergencies/wildfire.html"> RedCross Website</a>' 
+                }
+               },
+
+               {
+                type: 'Feature Firefirest Test',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-114.0878, 44.0682 ]
+                 },
+                properties: {
+                    title: 'Forest Fire',
+                    dateoforigin: 'Date of Origin: August 29, 2022 ',
+                    location: 'Williams Creek, Idaho ',               
+                    description: "Thousands of acres are burning. Mass evacuations happening.",
+                    prevention: 'Prevention: Simply do not dispose ignitable material into wild.',
+                    guideline: 'Guideline: '
+                }  
+               },
+
+               {
+                type: 'Feature Firefirest Test',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-105.2253, 20.6534]
+                 },
+                properties: {
+                    title: 'Tornado',
+                    dateoforigin: 'Date of Origin: October 9, 2022 ',
+                    location: 'Puerto Vallarta, Mexico',               
+                    description: 'Hurricane off the coast of Mexico dubbed Hurricane Roslyn',
+                    prevention: 'Prevention: But to prevent less deaths just barricade any windows and doors make sure to plug up all holes where water can come in.',
+                    guideline: 'Guideline: <a href="https://www.nhc.noaa.gov/refresh/graphics_ep4+shtml/145932.shtml?cone"> Link to NOAA website for live updates</a>' 
+                }    
+               },
+
+               {
+                type: 'WildFire',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-121, 47]
+                 },
+                properties: {
+                    title: 'Forest Fire',
+                    dateoforigin: 'Date of Origin: September 10th, 2022',
+                    location: 'Skykomish, Washington',               
+                    description: 'WildFire',
+                    prevention: 'Prevention: Simply do not dispose ignitable material into wild.',
+                    guideline: 'Guideline: <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/types-of-emergencies/wildfire.html"> RedCross Website</a>' 
+                }    
+               }, 
+               
+               {
+                type: 'Feature Firefirest Test',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [ -175.3800 , 20.5700 ]
+                 },
+                properties: {
+                    title: 'Eruption',
+                    dateoforigin: 'Date of Origin: January 15th, 2022',
+                    location: 'Hunga Tonga-Hunga Ha apai',               
+                    description: 'Tongo volcano erupted spewing volcanic plumes that reached 58km',
+                    prevention: 'Prevention: Cannot stop nature. But to prevent less deaths just barricade any windows and doors make sure to plug up all holes where water can come in.',
+                    guideline: 'Guideline: <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/types-of-emergencies/volcano.html#:~:text=Prepare%20in%20Advance&text=Assembling%20an%20emergency%20preparedness%20kit,are%20separated%20during%20an%20emergency."> RedCross Website</a>' 
+                }    
+               },
+
+               {
+                type: 'Feature Firefirest Test',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [ 101.9625, 30.0493  ]
+                 },
+                properties: {
+                    title: 'Earthquake',
+                    dateoforigin: 'Date of Origin: October 21st, 2022',
+                    location: 'Garze Tibetan Autonomous Prefecture, China',               
+                    description: 'Magnitude 5.3 earthquake',
+                    prevention: 'Prevention: Cannot stop nature. But to stay safe make sure to hide into solid large objects.',
+                    guideline: 'Guideline: <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/types-of-emergencies/volcano.html#:~:text=Prepare%20in%20Advance&text=Assembling%20an%20emergency%20preparedness%20kit,are%20separated%20during%20an%20emergency."> RedCross Website</a>' 
+                }    
+               },
+
+               {
+                type: 'Flood',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [ 7.3986 , 9.0765 ]
+                 },
+                properties: {
+                    title: 'Flood',
+                    dateoforigin: 'Date of Origin: October 22st, 2022',
+                    location: 'Abuja, Nigeria',               
+                    description: 'Flood',
+                    prevention: 'Prevention: Stay on higher attitude ground.',
+                    guideline: 'Guideline: <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/types-of-emergencies/flood.html"> RedCross Website</a>' 
+                }    
+               },
+
+               {
+                type: 'Flood',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-81.8661, 28.0583 ]
+                 },
+                properties: {
+                    title: 'Flood',
+                    dateoforigin: 'Date of Origin: October 2nd, 2022',
+                    location: 'Central Florida, Florda',               
+                    description: 'Flood',
+                    prevention: 'Prevention: Stay on higher attitude ground.',
+                    guideline: 'Guideline: <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/types-of-emergencies/flood.html"> RedCross Website</a>' 
+                }    
+               }, 
+
+               {
+                type: 'Eruption',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-22.3650, 64.9155   ]
+                 },
+                properties: {
+                    title: 'Eruption',
+                    dateoforigin: 'Date of Origin: September 29, 2022',
+                    location: 'Reykjanes Peninsula, Iceland',               
+                    description: 'Fagradalsfjall volcano currently erupting. Though not dangrous. It is advised to still be cautious. ',
+                    prevention: 'Prevention: Simply stay away from vicinity of eruption to ensure max saftey.',
+                    guideline: 'Guideline: <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/types-of-emergencies/volcano.html#:~:text=Prepare%20in%20Advance&text=Assembling%20an%20emergency%20preparedness%20kit,are%20separated%20during%20an%20emergency."> RedCross Website</a>'
+                }    
+               },
+
+               {
+                type: 'Landslide',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-67.2195, 10 ]
+                 },
+                properties: {
+                    title: 'Landslide',
+                    dateoforigin: 'Date of Origin: October 9, 2022',
+                    location: 'Las Tejerias, Venezuela',             
+                    description: 'Recennt landslide has left 22 people dead and 52 missing ',
+                    prevention: 'Prevention: Stay away from steep hills whether on top or below.  ',
+                    guideline: 'Guideline: <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/types-of-emergencies/landslide.html"> RedCross Website</a>'
+                }    
+               },
+             ] 
+           };
+         
+         // add markers to map
+          /* Format is 
+         Event:
+         Date of Origin:
+         Location:
+         Guidelines:
+         */
+         for (const feature of geojson.features) {
+            // create a HTML element for each feature
+            const el = document.createElement('div');
+            if (feature.properties.title == 'Tornado')
+                el.className = 'marker2';
+            else if (feature.properties.title == 'Forest Fire')
+                el.className = 'marker3'; 
+            else if(feature.properties.title == 'Landslide')
+                el.className = 'marker4';
+            else if(feature.properties.title == 'Flood')
+                el.className = 'marker5';
+            else if(feature.properties.title == 'Earthquake')
+                el.className = 'marker6';
+            else if(feature.properties.title == 'Eruption')
+                el.className = 'marker7';
+            else 
+                el.className = 'marker'; 
+            // make a marker for each feature and add to the map
+            new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map)
+            .setPopup(new mapboxgl.Popup({ offset: 25 })
+            .setHTML(`<h3>${feature.properties.title}</h3><p>${feature.properties.dateoforigin}</p><p>${feature.properties.location}</p><p>${feature.properties.description}</p><p>${feature.properties.prevention}</p><p>${feature.properties.guideline}</p`)).addTo(map);
+         }
+      </script>
+   </body>
+</html>
